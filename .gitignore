@@ -1,0 +1,44 @@
+# ==========================================
+# .gitignore - Projeto Rede Ipê RNP
+# ==========================================
+
+# Compilação e dependências do Maven (O lixo técnico)
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+
+# Diretórios e configurações de IDEs (VS Code, IntelliJ, Eclipse)
+.vscode/
+.idea/
+*.iml
+*.iws
+.project
+.classpath
+.settings/
+.factorypath
+
+# Arquivos compilados soltos (Redundância de segurança)
+*.class
+*.log
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+
+# Arquivos temporários do Sistema Operacional (Windows / Mac)
+Thumbs.db
+ehthumbs.db
+desktop.ini
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# O arquivo gerado pelo nosso Exportador (opcional)
+# Descomente a linha abaixo se NÃO quiser que o arquivo .dot vá para o GitHub
+# rede-ipe.dot

@@ -19,10 +19,23 @@ O foco aqui não é apenas fazer funcionar, mas garantir profundidade teórica. 
 
 Ao gerar ou modificar código, você DEVE obedecer às seguintes regras:
 
-1. **Uso de Records:** Utilize `record` nativo do Java para modelos de dados imutáveis (ex: DTOs, representações da planilha).
-2. **Nomenclatura:** Classes de domínio, métodos e variáveis devem ser nomeados em Português (ex: `Conexao`, `obterDistanciaReal`), mantendo os termos técnicos universais em Inglês onde fizer sentido (ex: `HttpClient`, `API`, `JSON`).
-3. **Modularidade:** O código deve ser altamente modular (separação clara entre ingestão de dados/parser, chamadas de API, estruturação do grafo e execução de algoritmos) para que diferentes membros da equipe possam trabalhar em paralelo sem gerar conflitos de merge.
-4. **Tratamento de Exceções:** Ao lidar com o `HttpClient` e APIs externas, trate timeouts e falhas de conexão de forma resiliente, evite engolir exceções genéricas. Inclua logs básicos (ex: `System.out.println` ou `Logger`).
+## 3. Padrões de Código e Arquitetura (Padrão MVC Simplificado)
+
+O projeto rejeita a estrutura tradicional e burocrática de pacotes do Java Enterprise (como `src/main/java/br/com/...`). Você DEVE utilizar uma estrutura de pastas MVC simples, direta na raiz do `src`.
+
+A estrutura exata deve ser:
+
+- `src/model/`: Classes de domínio (ex: `Conexao` usando `record`) e a classe wrapper do grafo (`GrafoRede.java`).
+- `src/controller/`: Lógica algorítmica (Kruskal, Prim, Coloração) e integrações externas (ex: `OSMClient.java` para buscar distâncias na API).
+- `src/view/`: Ponto de entrada da aplicação (`Main.java`) e classes de exportação visual.
+
+**Regra do Maven:** Para que o Maven aceite essa estrutura simplificada, você deve obrigatoriamente incluir a tag `<sourceDirectory>src</sourceDirectory>` dentro da tag `<build>` no `pom.xml` gerado.
+
+**Outras Regras:**
+
+1. **Nomenclatura:** Classes, métodos e variáveis em Português, mantendo termos técnicos universais em Inglês (ex: `HttpClient`, `JSON`).
+2. **Modularidade:** Mantenha as responsabilidades estritas ao seu pacote MVC. O Controller não deve guardar estado do grafo, e o Model não deve fazer requisições HTTP.
+3. **Tratamento de Exceções:** Ao lidar com a API do OpenStreetMap, trate timeouts e falhas de conexão de forma resiliente.
 
 ## 4. Profundidade Teórica e Comentários
 
