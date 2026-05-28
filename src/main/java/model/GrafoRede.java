@@ -12,7 +12,6 @@ public class GrafoRede {
     }
 
     // Adiciona os vértices caso não existam e a aresta entre eles.
-    // Evita duplicatas pela natureza do SimpleWeightedGraph.
     public void adicionarConexao(Conexao conexao, double distancia) {
         grafo.addVertex(conexao.pontoA());
         grafo.addVertex(conexao.pontoB());
@@ -20,6 +19,11 @@ public class GrafoRede {
             DefaultWeightedEdge aresta = grafo.addEdge(conexao.pontoA(), conexao.pontoB());
             grafo.setEdgeWeight(aresta, distancia);
         }
+    }
+
+    // Exposição do grafo interno para os algoritmos de análise.
+    public SimpleWeightedGraph<String, DefaultWeightedEdge> getGrafo() {
+        return grafo;
     }
 
     // Retorna o número total de vértices no grafo.
