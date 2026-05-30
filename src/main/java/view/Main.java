@@ -27,8 +27,9 @@ public class Main {
         analisador.calcularKruskal(grafoRede.getGrafo());
         analisador.calcularPrim(grafoRede.getGrafo());
         analisador.colorirVertices(grafoRede.getGrafo());
+        analisador.analisarConectividade(grafoRede.getGrafo());
 
         ExportadorGrafo exportador = new ExportadorGrafo();
-        exportador.exportar(grafoRede.getGrafo(), "rede-ipe.dot");
+        exportador.exportar(grafoRede, "rede-ipe.dot");
     }
 }

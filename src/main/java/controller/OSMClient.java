@@ -32,6 +32,9 @@ public class OSMClient {
         }
 
         try {
+            // Aguarda 1,1s ANTES de cada requisição para respeitar o rate limit do Nominatim (1 req/s)
+            Thread.sleep(1100);
+
             String encodedCidade = URLEncoder.encode(cidade, StandardCharsets.UTF_8);
             String url = "https://nominatim.openstreetmap.org/search?q=" + encodedCidade + "&format=json&limit=1";
             
@@ -54,8 +57,6 @@ public class OSMClient {
                 double lon = first.get("lon").asDouble();
                 double[] coords = new double[]{lat, lon};
                 cacheCoordenadas.put(cidade, coords);
-                // Aguarda 1,1s para respeitar o rate limit do Nominatim (1 req/s)
-                Thread.sleep(1100);
                 return coords;
             } else {
                 throw new RuntimeException("Cidade não encontrada no Nominatim: " + cidade);

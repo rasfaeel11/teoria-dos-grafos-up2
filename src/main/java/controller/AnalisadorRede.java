@@ -2,12 +2,15 @@ package controller;
 
 import org.jgrapht.Graph;
 import org.jgrapht.alg.color.LargestDegreeFirstColoring;
+import org.jgrapht.alg.connectivity.ConnectivityInspector;
+import org.jgrapht.alg.cycle.CycleDetector;
 import org.jgrapht.alg.spanning.KruskalMinimumSpanningTree;
 import org.jgrapht.alg.spanning.PrimMinimumSpanningTree;
 import org.jgrapht.graph.DefaultWeightedEdge;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class AnalisadorRede {
@@ -69,5 +72,47 @@ public class AnalisadorRede {
         LargestDegreeFirstColoring<String, DefaultWeightedEdge> coloring = new LargestDegreeFirstColoring<>(grafo);
         System.out.println("Coloração dos Vértices: " + coloring.getColoring().getColors());
         System.out.println("Número cromático χ(G) = " + coloring.getColoring().getNumberColors());
+    }
+
+    // Analisa propriedades de conectividade do grafo:
+    // conexidade, graus dos vértices (com destaques), componentes e ciclos.
+    public void analisarConectividade(Graph<String, DefaultWeightedEdge> grafo) {
+        System.out.println("\n=== ANÁLISE DE CONECTIVIDADE ===");
+
+        // 1. Conectividade geral
+        ConnectivityInspector<String, DefaultWeightedEdge> inspector = new ConnectivityInspector<>(grafo);
+        boolean conexo = inspector.isConnected();
+        System.out.println("Grafo conexo: " + conexo);
+
+        // 2. Grau de cada vértice, ordenado decrescente
+        System.out.println("\nGrau dos vértices:");
+        grafo.vertexSet().stream()
+                .collect(Collectors.toMap(
+                        v -> v,
+                        v -> grafo.degreeOf(v)
+                ))
+                .entrySet().stream()
+                .sorted(Map.Entry.<String, Integer>comparingByValue(Comparator.reverseOrder())
+                        .thenComparing(Map.Entry.comparingByKey()))
+                .forEach(entry -> {
+                    String cidade = entry.getKey();
+                    int grau = entry.getValue();
+                    String destaque = "";
+                    if (grau >= 4) {
+                        destaque = " (HUB CRÍTICO)";
+                    } else if (grau == 1) {
+                        destaque = " (SPOF - nó folha)";
+                    }
+                    System.out.printf("  %s: grau %d%s%n", cidade, grau, destaque);
+                });
+
+        // 3. Número de componentes conectados
+        int numComponentes = inspector.connectedSets().size();
+        System.out.println("\nNúmero de componentes conectados: " + numComponentes);
+
+        // 4. Detecção de ciclos
+        CycleDetector<String, DefaultWeightedEdge> cycleDetector = new CycleDetector<>(grafo);
+        boolean temCiclos = cycleDetector.detectCycles();
+        System.out.println("Grafo possui ciclos: " + temCiclos);
     }
 }
