@@ -54,6 +54,8 @@ public class OSMClient {
                 double lon = first.get("lon").asDouble();
                 double[] coords = new double[]{lat, lon};
                 cacheCoordenadas.put(cidade, coords);
+                // Aguarda 1,1s para respeitar o rate limit do Nominatim (1 req/s)
+                Thread.sleep(1100);
                 return coords;
             } else {
                 throw new RuntimeException("Cidade não encontrada no Nominatim: " + cidade);
