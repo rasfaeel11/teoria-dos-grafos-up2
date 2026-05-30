@@ -16,7 +16,8 @@ import java.util.stream.Collectors;
 public class AnalisadorRede {
 
     // Calcula a Árvore Geradora Mínima via Kruskal.
-    // Imprime o custo total e cada aresta selecionada, ordenadas por peso crescente.
+    // Imprime o custo total e cada aresta selecionada, ordenadas por peso
+    // crescente.
     public void calcularKruskal(Graph<String, DefaultWeightedEdge> grafo) {
         KruskalMinimumSpanningTree<String, DefaultWeightedEdge> kruskal = new KruskalMinimumSpanningTree<>(grafo);
         double custoTotal = kruskal.getSpanningTree().getWeight();
@@ -36,7 +37,8 @@ public class AnalisadorRede {
     }
 
     // Calcula a Árvore Geradora Mínima via Prim.
-    // Imprime o custo total, cada aresta selecionada e compara com a MST de Kruskal.
+    // Imprime o custo total, cada aresta selecionada e compara com a MST de
+    // Kruskal.
     public void calcularPrim(Graph<String, DefaultWeightedEdge> grafo) {
         PrimMinimumSpanningTree<String, DefaultWeightedEdge> prim = new PrimMinimumSpanningTree<>(grafo);
         double custoTotalPrim = prim.getSpanningTree().getWeight();
@@ -89,8 +91,7 @@ public class AnalisadorRede {
         grafo.vertexSet().stream()
                 .collect(Collectors.toMap(
                         v -> v,
-                        v -> grafo.degreeOf(v)
-                ))
+                        v -> grafo.degreeOf(v)))
                 .entrySet().stream()
                 .sorted(Map.Entry.<String, Integer>comparingByValue(Comparator.reverseOrder())
                         .thenComparing(Map.Entry.comparingByKey()))
@@ -110,9 +111,5 @@ public class AnalisadorRede {
         int numComponentes = inspector.connectedSets().size();
         System.out.println("\nNúmero de componentes conectados: " + numComponentes);
 
-        // 4. Detecção de ciclos
-        CycleDetector<String, DefaultWeightedEdge> cycleDetector = new CycleDetector<>(grafo);
-        boolean temCiclos = cycleDetector.detectCycles();
-        System.out.println("Grafo possui ciclos: " + temCiclos);
     }
 }
